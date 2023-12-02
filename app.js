@@ -1,4 +1,7 @@
 import express from "express";
+import dotenv from "dotenv";
+
+dotenv.config({ path: "./.env" });
 
 const app = express();
 
@@ -9,6 +12,11 @@ app.get("/", (req, res) => {
     });
 });
 
-app.listen(1000, () => {
-    console.log("Server started...");
+const hello = "arunesh";
+
+const PORT = process.env.PORT || 1000;
+
+app.listen(PORT, () => {
+    console.log("");
+    console.log(`Server running on ${PORT}...`);
 });
