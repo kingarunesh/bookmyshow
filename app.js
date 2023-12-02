@@ -9,7 +9,11 @@ const app = express();
 //SECTION :     global middlewares - it will run before any routes
 
 //NOTE :    morgan
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "development") {
+    app.use(morgan("dev"));
+} else {
+    console.log("----- You are in PRODUCTION ENV -----");
+}
 
 //NOTE :    json body parser
 app.use(express.json());
