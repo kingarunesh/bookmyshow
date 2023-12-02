@@ -19,18 +19,18 @@ const movies = JSON.parse(fs.readFileSync("./data/movies.json", "utf-8"));
 //SECTION :     route
 
 //NOTE :    get all movies
-app.get("/api/v1/movies", (req, res) => {
+const getAllMovies = (req, res) => {
     res.status(200).json({
         status: "success",
         length: movies.length,
         data: {
-            movies,
+            movies: movies.reverse(),
         },
     });
-});
+};
 
 //NOTE :    create new movie
-app.post("/api/v1/create-movie", (req, res) => {
+const createNewMovie = (req, res) => {
     const newMovies = { id: movies.length, ...req.body };
     movies.push(newMovies);
 
@@ -42,10 +42,10 @@ app.post("/api/v1/create-movie", (req, res) => {
             movie: req.body,
         },
     });
-});
+};
 
 //NOTE :    get movie
-app.get("/api/v1/get-movie/:id", (req, res) => {
+const getMovie = (req, res) => {
     const id = req.params.id;
 
     if (id > movies.length - 1) {
@@ -63,10 +63,10 @@ app.get("/api/v1/get-movie/:id", (req, res) => {
             movie: movie,
         },
     });
-});
+};
 
 //NOTE :    update movie
-app.patch("/api/v1/update-movie/:id", (req, res) => {
+const updateMovie = (req, res) => {
     // get id
     const id = Number(req.params.id);
 
@@ -99,10 +99,10 @@ app.patch("/api/v1/update-movie/:id", (req, res) => {
             message: "Please enter valid movie id",
         });
     }
-});
+};
 
 //NOTE :    delete movie
-app.delete("/api/v1/delete-movie/:id", (req, res) => {
+const deleteMovie = (req, res) => {
     const id = Number(req.params.id);
 
     const checkMovieExitsOrNot = movies.find((movie) => movie.id === id);
@@ -122,7 +122,12 @@ app.delete("/api/v1/delete-movie/:id", (req, res) => {
         status: "success",
         message: "hello",
     });
-});
+};
+
+//NOTE :    route
+
+app.route("/api/v1/movies").get(getAllMovies).post(createNewMovie);
+app.route("/api/v1/movies/:id").get(getMovie).patch(updateMovie).delete(deleteMovie);
 
 //SECTION :     server start
 const PORT = process.env.PORT || 1000;
