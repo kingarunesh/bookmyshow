@@ -12,8 +12,6 @@ app.get("/", (req, res) => {
     });
 });
 
-const hello = "arunesh";
-
 const PORT = process.env.PORT || 1000;
 
 app.listen(PORT, () => {
