@@ -1,16 +1,27 @@
 import express from "express";
 import dotenv from "dotenv";
 import fs from "fs";
+import morgan from "morgan";
 
 //SECTION :     env
 dotenv.config({ path: "./.env" });
 
 const app = express();
 
-//SECTION :     middlewares
+//SECTION :     global middlewares - it will run before any routes
+
+//NOTE :    morgan
+app.use(morgan("dev"));
 
 //NOTE :    json body parser
 app.use(express.json());
+
+//NOTE :    test
+app.use((req, res, next) => {
+    req.requestAt = new Date().toLocaleString();
+
+    next();
+});
 
 //SECTION :     json file read
 const movies = JSON.parse(fs.readFileSync("./data/movies.json", "utf-8"));
@@ -23,6 +34,7 @@ const getAllMovies = (req, res) => {
     res.status(200).json({
         status: "success",
         length: movies.length,
+        requestAt: req.requestAt,
         data: {
             movies: movies.reverse(),
         },
