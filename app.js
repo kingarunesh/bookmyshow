@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 const movies = JSON.parse(fs.readFileSync("./data/movies.json", "utf-8"));
 // console.log(movies);
 
-//SECTION :     route
+//SECTION :     movies route methods
 
 //NOTE :    get all movies
 const getAllMovies = (req, res) => {
@@ -136,10 +136,55 @@ const deleteMovie = (req, res) => {
     });
 };
 
-//NOTE :    route
+//SECTION :     user route methods
+
+//NOTE :    get all users
+const getAllUser = (req, res) => {
+    res.status(400).json({
+        status: "undefined",
+        message: "This route yet not defined",
+    });
+};
+
+//NOTE :    get user
+const getUser = (req, res) => {
+    res.status(400).json({
+        status: "undefined",
+        message: "This route yet not defined",
+    });
+};
+
+//NOTE :    create user
+const createUser = (req, res) => {
+    res.status(400).json({
+        status: "undefined",
+        message: "This route yet not defined",
+    });
+};
+
+//NOTE :    update user
+const updateUser = (req, res) => {
+    res.status(400).json({
+        status: "undefined",
+        message: "This route yet not defined",
+    });
+};
+
+//NOTE :    delete user
+const deleteUser = (req, res) => {
+    res.status(400).json({
+        status: "undefined",
+        message: "This route yet not defined",
+    });
+};
+
+//SECTION :    route
 
 app.route("/api/v1/movies").get(getAllMovies).post(createNewMovie);
 app.route("/api/v1/movies/:id").get(getMovie).patch(updateMovie).delete(deleteMovie);
+
+app.route("/api/v1/users").get(getAllUser).post(createUser);
+app.route("/api/v1/users/:id").get(getUser).patch(updateUser).delete(deleteUser);
 
 //SECTION :     server start
 const PORT = process.env.PORT || 1000;
