@@ -1,11 +1,11 @@
 import fs from "fs";
 
+//SECTION :     read movie json file
 const movies = JSON.parse(fs.readFileSync("./data/movies.json", "utf-8"));
 
-export default (req, res) => {
-    const id = Number(req.params.id);
-
-    const checkMovieExitsOrNot = movies.find((movie) => movie.id === id);
+//SECTION :     id checking
+export const idCheck = (req, res, next, value) => {
+    const checkMovieExitsOrNot = movies.find((movie) => movie.id === Number(req.params.id));
 
     if (!checkMovieExitsOrNot) {
         return res.status(400).json({
@@ -13,6 +13,13 @@ export default (req, res) => {
             error: "Please enter valid movie id",
         });
     }
+
+    next();
+};
+
+//SECTION :     delete movie handler
+export const deleteMovie = (req, res) => {
+    const id = Number(req.params.id);
 
     const newMovies = movies.filter((movie) => movie.id !== id);
 
