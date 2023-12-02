@@ -180,11 +180,17 @@ const deleteUser = (req, res) => {
 
 //SECTION :    route
 
-app.route("/api/v1/movies").get(getAllMovies).post(createNewMovie);
-app.route("/api/v1/movies/:id").get(getMovie).patch(updateMovie).delete(deleteMovie);
+const moviesRouter = express.Router();
+const usersRouter = express.Router();
 
-app.route("/api/v1/users").get(getAllUser).post(createUser);
-app.route("/api/v1/users/:id").get(getUser).patch(updateUser).delete(deleteUser);
+moviesRouter.route("/").get(getAllMovies).post(createNewMovie);
+moviesRouter.route("/:id").get(getMovie).patch(updateMovie).delete(deleteMovie);
+
+usersRouter.route("/").get(getAllUser).post(createUser);
+usersRouter.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
+
+app.use("/api/v1/movies", moviesRouter);
+app.use("/api/v1/users", usersRouter);
 
 //SECTION :     server start
 const PORT = process.env.PORT || 1000;
