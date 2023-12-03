@@ -16,10 +16,20 @@ import Movie from "./../../models/movieModel.js";
 
 //SECTION :     delete movie handler
 export const deleteMovie = async (req, res) => {
-    await Movie.findByIdAndDelete(req.params.id);
+    try {
+        const movie = await Movie.findByIdAndDelete(req.params.id);
 
-    res.status(204).json({
-        status: "success",
-        message: null,
-    });
+        //!     fix later if movie already deleted then it showing null
+        console.log(movie);
+
+        res.status(204).json({
+            status: "success",
+            message: null,
+        });
+    } catch (error) {
+        res.status(400).json({
+            status: "success",
+            error: error,
+        });
+    }
 };
