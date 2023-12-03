@@ -16,7 +16,7 @@ const movieSchema = new mongoose.Schema({
 
     duration: {
         type: String,
-        required: [true, "Movie must have duration in format - 156m"],
+        // required: [true, "Movie must have duration in format - 156m"],
     },
 
     description: {
@@ -24,23 +24,14 @@ const movieSchema = new mongoose.Schema({
         trim: true,
         required: [true, "Movie must have description about movie"],
         minLength: [15, "Movie must have description length minimum 15 and maximum 1500"],
-        maxLength: [15, "Movie must have description length minimum 15 and maximum 1500"],
+        maxLength: [1500, "Movie must have description length minimum 15 and maximum 1500"],
     },
 
-    cast: {
-        type: [String],
-        required: [true, "Movie must have cast information"],
-    },
+    cast: [String],
 
-    genres: {
-        type: [String],
-        required: [true, "Movie must have genres"],
-    },
+    genres: [String],
 
-    language: {
-        type: [String],
-        required: [true, "Movie must have langauge"],
-    },
+    language: [String],
 
     avgRating: {
         type: Number,
@@ -57,11 +48,12 @@ const movieSchema = new mongoose.Schema({
         trim: true,
     },
 
-    images: {
-        type: [String],
-    },
+    images: [String],
 
-    createdAt: new Date(),
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    },
 });
 
 const Movie = mongoose.model("Movie", movieSchema);
