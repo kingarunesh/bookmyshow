@@ -1,8 +1,9 @@
-import fs from "fs";
+import Movie from "./../../models/movieModel.js";
 
-const movies = JSON.parse(fs.readFileSync("./data/movies.json", "utf-8"));
+//SECTION :     route handler method
+export default async (req, res) => {
+    const movies = await Movie.find();
 
-export default (req, res) => {
     res.status(200).json({
         status: "success",
         length: movies.length,
