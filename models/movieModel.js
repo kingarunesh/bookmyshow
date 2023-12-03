@@ -7,6 +7,7 @@ const movieSchema = new mongoose.Schema({
         minLength: [3, "Movie title must be between 3 and 50"],
         maxLength: [50, "Movie title must be between 3 and 50"],
         trim: true,
+        unique: true,
     },
 
     releaseDate: {
@@ -15,8 +16,8 @@ const movieSchema = new mongoose.Schema({
     },
 
     duration: {
-        type: String,
-        // required: [true, "Movie must have duration in format - 156m"],
+        type: Number,
+        required: [true, "Movie must have duration in minitue"],
     },
 
     description: {
