@@ -1,7 +1,27 @@
 import Movie from "./../../models/movieModel.js";
 
+//SECTION :     alias - middleware
+
+//NOTE :    top 5 long duration movies
+const topFivelongDurationMovies = (req, res, next) => {
+    req.query.fields = "title,duration,avgRating,countRating";
+    req.query.limit = 5;
+    req.query.sort = "-duration";
+
+    next();
+};
+
+//NOTE :    top 5 movies by avgerage rating
+const topFiveByAverageRatingMovies = (req, res, next) => {
+    req.query.limit = 5;
+    req.query.sort = "-avgRating";
+    req.query.fields = "title, duration, avgRating, countRating";
+
+    next();
+};
+
 //SECTION :     route handler method
-export default async (req, res) => {
+const movies = async (req, res) => {
     try {
         //NOTE :    get all movies
         // const movies = await Movie.find();
@@ -126,3 +146,7 @@ export default async (req, res) => {
         });
     }
 };
+
+//SECTION :     export methods
+
+export { movies, topFivelongDurationMovies, topFiveByAverageRatingMovies };
