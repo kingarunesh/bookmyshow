@@ -1,5 +1,26 @@
 import Movie from "./../../models/movieModel.js";
 
+//SECTION :     url
+
+/*
+
+{{URL}}/movies?language=English&fields=language,title
+
+{{URL}}/movies?genres=Comedy
+
+{{URL}}/movies?cast=Vijay
+
+//!     not working ( cast is there in array that's why )
+{{URL}}/movies?cast=Vijay,Arjun
+
+{{URL}}/movies?language=English
+
+{{URL}}/movies?duration[gte]=160&avgRating[gte]=4.0&countRating[gte]=5000
+
+{{URL}}/movies?countRating[gte]=10000
+
+*/
+
 //SECTION :     alias - middleware
 
 //NOTE :    top 5 long duration movies
@@ -47,9 +68,6 @@ const movies = async (req, res) => {
         // const query = Movie.find(queryObj);
 
         //NOTE :    adv filtering - gt, gte, lt, lte
-        // final url
-        // {{URL}}/movies?duration[gte]=160&avgRating[gte]=4.0&countRating[gte]=5000
-
         // console.log(queryObj);
 
         //  convert json-parse to json-strinfy
