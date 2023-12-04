@@ -41,6 +41,15 @@ const topFiveByAverageRatingMovies = (req, res, next) => {
     next();
 };
 
+//NOTE :    top 5 oldest movies
+const topFiveOldestMovies = (req, res, next) => {
+    req.query.limit = 5;
+    req.query.fields = "title,releaseDate,";
+    req.query.sort = "releaseDate";
+
+    next();
+};
+
 //SECTION :     route handler method
 const movies = async (req, res) => {
     try {
@@ -167,4 +176,4 @@ const movies = async (req, res) => {
 
 //SECTION :     export methods
 
-export { movies, topFivelongDurationMovies, topFiveByAverageRatingMovies };
+export { movies, topFivelongDurationMovies, topFiveByAverageRatingMovies, topFiveOldestMovies };
