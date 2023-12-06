@@ -20,6 +20,9 @@ export const createMovie = async (req, res) => {
             avgRating: req.body.avgRating,
             coverImage: req.body.coverImage,
             duration: req.body.duration,
+            type: req.body.type,
+            budget: req.body.budget,
+            boxOffice: req.body.boxOffice,
         });
 
         res.status(201).json({

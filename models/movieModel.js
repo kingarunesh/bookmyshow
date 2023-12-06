@@ -20,6 +20,21 @@ const movieSchema = new mongoose.Schema({
         required: [true, "Movie must have duration in minitue"],
     },
 
+    type: {
+        type: String,
+        required: [true, "Movie must have type"],
+    },
+
+    budget: {
+        type: Number,
+        required: [true, "Movie must have budget"],
+    },
+
+    boxOffice: {
+        type: Number,
+        required: [true, "Movie must have box office collection"],
+    },
+
     description: {
         type: String,
         trim: true,
