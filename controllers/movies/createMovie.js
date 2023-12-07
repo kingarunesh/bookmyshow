@@ -24,6 +24,7 @@ export const createMovie = async (req, res) => {
             budget: req.body.budget,
             boxOffice: req.body.boxOffice,
             hikeDates: req.body.hikeDates,
+            thereInTheater: req.body.thereInTheater,
         });
 
         res.status(201).json({
