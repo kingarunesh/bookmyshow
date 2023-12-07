@@ -23,6 +23,7 @@ export const createMovie = async (req, res) => {
             type: req.body.type,
             budget: req.body.budget,
             boxOffice: req.body.boxOffice,
+            hikeDates: req.body.hikeDates,
         });
 
         res.status(201).json({

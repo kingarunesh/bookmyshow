@@ -13,6 +13,7 @@ import { deleteMovie } from "./../controllers/movies/deleteMovie.js";
 import { createMovie } from "./../controllers/movies/createMovie.js";
 
 import moviesStats from "../controllers/movies/moviesStats.js";
+import monthlyMovies from "../controllers/movies/monthlyMovies.js";
 
 const router = express.Router();
 
@@ -23,6 +24,7 @@ router.route("/top-5-average-rating-movies").get(topFiveByAverageRatingMovies, m
 router.route("/top-5-oldest-movies").get(topFiveOldestMovies, movies);
 
 router.route("/movies-stats").get(moviesStats);
+router.route("/monthly-movies/:year").get(monthlyMovies);
 
 // router.param("id", idCheck);
 

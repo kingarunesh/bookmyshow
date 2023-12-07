@@ -70,6 +70,7 @@ const movieSchema = new mongoose.Schema({
         type: Date,
         default: Date.now(),
     },
+    hikeDates: [Date],
 });
 
 const Movie = mongoose.model("Movie", movieSchema);
