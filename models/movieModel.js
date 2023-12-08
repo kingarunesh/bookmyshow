@@ -14,7 +14,10 @@ const movieSchema = new mongoose.Schema(
 
         slug: String,
 
-        secretMovie: Boolean,
+        secretMovie: {
+            type: Boolean,
+            default: false,
+        },
 
         releaseDate: {
             type: Date,
@@ -29,6 +32,10 @@ const movieSchema = new mongoose.Schema(
         type: {
             type: String,
             required: [true, "Movie must have type"],
+            enum: {
+                values: ["child", "adult", "family"],
+                message: "Movie type must be anyone child, adult or family",
+            },
         },
 
         budget: {
@@ -37,6 +44,15 @@ const movieSchema = new mongoose.Schema(
 
         boxOffice: {
             type: Number,
+
+            validate: {
+                //!     only work when creating new document
+                validator: function (currentValue) {
+                    return currentValue > this.budget;
+                },
+
+                message: "Box Office collection ({VALUE}) must be greater than budget",
+            },
         },
 
         description: {
@@ -56,10 +72,13 @@ const movieSchema = new mongoose.Schema(
         avgRating: {
             type: Number,
             required: [true, "Movie must have average rating"],
+            min: [1, "Movie average rating must be between 1.0 and 5.0"],
+            max: [5, "Movie average rating must be between 1.0 and 5.0"],
         },
 
         countRating: {
             type: Number,
+            min: [1, "Movie countRating minimum 0 or more than 0"],
         },
 
         coverImage: {
