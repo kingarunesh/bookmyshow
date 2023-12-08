@@ -25,6 +25,7 @@ export const createMovie = async (req, res) => {
             boxOffice: req.body.boxOffice,
             hikeDates: req.body.hikeDates,
             thereInTheater: req.body.thereInTheater,
+            secretMovie: req.body.secretMovie,
         });
 
         res.status(201).json({

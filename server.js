@@ -18,6 +18,8 @@ if (process.env.NODE_ENV === "development") {
     PORT = 1001;
 }
 
+console.clear();
+
 app.listen(PORT, () => {
     console.log("");
     console.log(`Server running on ${PORT}...`);

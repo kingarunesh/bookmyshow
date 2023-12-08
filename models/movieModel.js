@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import slugify from "slugify";
 
 const movieSchema = new mongoose.Schema(
     {
@@ -10,6 +11,10 @@ const movieSchema = new mongoose.Schema(
             trim: true,
             unique: true,
         },
+
+        slug: String,
+
+        secretMovie: Boolean,
 
         releaseDate: {
             type: Date,
@@ -28,12 +33,10 @@ const movieSchema = new mongoose.Schema(
 
         budget: {
             type: Number,
-            required: [true, "Movie must have budget"],
         },
 
         boxOffice: {
             type: Number,
-            required: [true, "Movie must have box office collection"],
         },
 
         description: {
@@ -163,6 +166,61 @@ movieSchema.virtual("releasedDateCount").get(function () {
     return `${
         years > 0 ? `${years} years, ` : ""
     }${months > 0 ? `${months} months, ` : ""}${weeks > 0 ? `${weeks} weeks` : ""}${daysOld > 0 ? `, ${daysOld} days` : ""} ago`;
+});
+
+//SECTION :     document middleware
+
+//NOTE :    pre will run before save OR create document in database AND pre have "this" keywords means "this" can access movieSchema
+movieSchema.pre("save", function (next) {
+    // console.log("PRE : ", this);
+
+    //!     slug
+    this.slug = slugify(this.title, { replacement: "-", lower: true });
+
+    //!     check duration
+    if (this.duration < 100) {
+        throw new Error("Please enter valid movie duration");
+    }
+
+    next();
+});
+
+//NOTE :    post will run after document save on database, post doesnot have "this" keyword but post have document access means whatever content will save or create that content will return as a document
+movieSchema.post("save", function (document, next) {
+    // console.log("POST : ", document);
+
+    next();
+});
+
+//SECTION :     query middleware
+//!     it will work for "find", "findById", "findByIdAndUpdate", "findByIdAndDelete" related all types for "find..."
+
+//NOTE :    pre query middleware
+
+//!     "find" will work for only "find"
+// movieSchema.pre("find", function (next) {
+
+//!     "find" will work for "find", "findById", "findByIdAndDelete", "findByIdAndUpdate"
+movieSchema.pre(/^find/, function (next) {
+    this.find({ secretMovie: { $ne: true } });
+
+    next();
+});
+
+//NOTE :    post middleware
+movieSchema.post("find", function (document, next) {
+    console.log("Post Query Middleware");
+
+    // console.log(document);
+
+    next();
+});
+
+//SECTION :     aggregate middleware
+movieSchema.pre("aggregate", function (next) {
+    this.pipeline().unshift({ $match: { secretMovie: { $ne: true } } });
+
+    next();
 });
 
 //SECTION :     create collection and export

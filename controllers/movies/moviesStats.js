@@ -21,7 +21,7 @@ export default async (req, res) => {
         //NOTE :    get
         const movies = await Movie.aggregate([
             {
-                $match: { avgRating: { $gte: 3.0 } },
+                $match: { avgRating: { $gte: 1.0 } },
             },
 
             {
