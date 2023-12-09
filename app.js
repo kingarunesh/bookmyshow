@@ -4,6 +4,9 @@ import morgan from "morgan";
 import moviesRouter from "./routes/moviesRoute.js";
 import usersRouter from "./routes/usersRoute.js";
 
+import AppError from "./utils/appError.js";
+import globalErrorHandler from "./controllers/errorController.js";
+
 const app = express();
 
 //SECTION :     global middlewares - it will run before any routes
@@ -43,22 +46,15 @@ app.all("*", (req, res, next) => {
     //     message: `Can not find ${req.originalUrl} URL on this server.`,
     // });
 
-    const error = new Error(`Can not find ${req.originalUrl} URL on this server.`);
-    error.status = "fail";
-    error.statusCode = 404;
+    // const error = new Error(`Can not find ${req.originalUrl} URL on this server.`);
+    // error.status = "fail";
+    // error.statusCode = 404;
+    // next(error);
 
-    next(error);
+    next(new AppError(`Can not find ${req.originalUrl} URL on this server.`, 404));
 });
 
-app.use((error, req, res, next) => {
-    error.status = error.status || "error";
-    error.statusCode = error.statusCode || 500;
-
-    res.status(error.statusCode).json({
-        status: error.status,
-        message: error.message,
-    });
-});
+app.use(globalErrorHandler);
 
 //SECTION :     server start
 export default app;
