@@ -29,5 +29,36 @@ app.use((req, res, next) => {
 app.use("/api/v1/movies", moviesRouter);
 app.use("/api/v1/users", usersRouter);
 
+//NOTE :    url not found
+// app.all("*", (req, res, next) => {
+//     res.status(404).json({
+//         status: "fail",
+//         message: `Can not find ${req.originalUrl} URL on this server.`,
+//     });
+// });
+
+app.all("*", (req, res, next) => {
+    // res.status(404).json({
+    //     status: "fail",
+    //     message: `Can not find ${req.originalUrl} URL on this server.`,
+    // });
+
+    const error = new Error(`Can not find ${req.originalUrl} URL on this server.`);
+    error.status = "fail";
+    error.statusCode = 404;
+
+    next(error);
+});
+
+app.use((error, req, res, next) => {
+    error.status = error.status || "error";
+    error.statusCode = error.statusCode || 500;
+
+    res.status(error.statusCode).json({
+        status: error.status,
+        message: error.message,
+    });
+});
+
 //SECTION :     server start
 export default app;
