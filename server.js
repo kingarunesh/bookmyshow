@@ -12,11 +12,11 @@ mongoose.connect(process.env.DATABASE).then(() => console.log("Database Conected
 //SECTION :     server start
 let PORT = process.env.PORT;
 
-// if (process.env.NODE_ENV === "development") {
-//     PORT = 1000;
-// } else if (process.env.NODE_ENV === "production") {
-//     PORT = 1001;
-// }
+if (process.env.NODE_ENV === "development") {
+    PORT = 1000;
+} else if (process.env.NODE_ENV === "production") {
+    PORT = 1001;
+}
 
 console.clear();
 
