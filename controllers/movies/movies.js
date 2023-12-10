@@ -1,6 +1,7 @@
 import Movie from "./../../models/movieModel.js";
 
 import APIFeatures from "../../utils/APIFeatures.js";
+import catchAsync from "../../utils/catchAsync.js";
 
 //SECTION :     url
 /*
@@ -52,33 +53,20 @@ const topFiveOldestMovies = (req, res, next) => {
 };
 
 //SECTION :     route handler method
-const movies = async (req, res) => {
-    try {
-        const features = new APIFeatures(Movie.find(), req.query).filter().sort().fields().pagination();
+const movies = catchAsync(async (req, res, next) => {
+    const features = new APIFeatures(Movie.find(), req.query).filter().sort().fields().pagination();
 
-        const movies = await features.query;
+    const movies = await features.query;
 
-        res.status(200).json({
-            status: "success",
-            length: movies.length,
-            requestAt: req.requestAt,
-            data: {
-                movies,
-            },
-        });
-
-        //NOTE :    send error
-    } catch (error) {
-        res.status(400).json({
-            status: "fail",
-
-            requestAt: req.requestAt,
-            error: {
-                error,
-            },
-        });
-    }
-};
+    res.status(200).json({
+        status: "success",
+        length: movies.length,
+        requestAt: req.requestAt,
+        data: {
+            movies,
+        },
+    });
+});
 
 //SECTION :     export methods
 

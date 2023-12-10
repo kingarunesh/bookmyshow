@@ -1,21 +1,14 @@
 import Movie from "./../../models/movieModel.js";
 
-export default async (req, res) => {
-    try {
-        const movie = await Movie.findById(req.params.id);
+import catchAsync from "../../utils/catchAsync.js";
 
-        res.status(200).json({
-            status: "succes",
-            data: {
-                movie,
-            },
-        });
-    } catch (error) {
-        res.status(200).json({
-            status: "succes",
-            data: {
-                error: error,
-            },
-        });
-    }
-};
+export default catchAsync(async (req, res, next) => {
+    const movie = await Movie.findById(req.params.id);
+
+    res.status(200).json({
+        status: "succes",
+        data: {
+            movie,
+        },
+    });
+});
